@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.GridLayout;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
@@ -36,9 +37,13 @@ public class Client extends JFrame {
 		try {
 			Socket s = new Socket("192.168.1.13", 6666);
 			DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+			DataInputStream dis = new DataInputStream(s.getInputStream());
 			dout.writeUTF("Hello Server!");
+			String str = (String) dis.readUTF();
+			System.out.println("Server says ? " + str);
 			dout.flush();
 			dout.close();
+			dis.close();
 			s.close();
 		}
 		
