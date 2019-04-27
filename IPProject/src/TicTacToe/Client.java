@@ -55,9 +55,17 @@ public class Client extends JFrame {
 		while (true) {
 
 			try {
-				if (dis.readInt() == 12) {
-					show("GameScreen");
-
+				if (dis != null) {
+					int length = dis.available();
+					byte[] buf = new byte[length];
+					dis.readFully(buf);
+					for (byte b : buf) {
+						int action = (int) b;
+						System.out.println(action);
+						if (action == 12) {
+							show("GameScreen");
+						}
+					}
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
