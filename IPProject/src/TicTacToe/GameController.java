@@ -243,6 +243,11 @@ public class GameController extends JFrame {
 		YouWonScreen.add(WonLabel);
 
 		JButton wonTryAgain = new JButton("Try again");
+		wonTryAgain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				show("GameScreen");
+			}
+		});
 		wonTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		wonTryAgain.setBounds(140, 244, 164, 83);
 		YouWonScreen.add(wonTryAgain);
