@@ -8,12 +8,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -23,8 +25,9 @@ import javax.swing.JTextField;
 public class GameController extends JFrame {
 
 	private JPanel contentPane;
-	public ArrayList<JPanel> menuScreens = new ArrayList<>();
+	private ArrayList<JPanel> menuScreens = new ArrayList<>();
 	private JTextField textField;
+	private Socket s;
 
 	/**
 	 * Launch the application.
@@ -58,11 +61,16 @@ public class GameController extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		// CLIENT SCREEN
+
+		JPanel ClientScreen = new JPanel();
+		ClientScreen.setVisible(false);
+
 		// GAME SCREEN
 
 		JPanel GameScreen = new JPanel();
-		GameScreen.setName("GameScreen");
 		GameScreen.setVisible(false);
+		GameScreen.setName("GameScreen");
 		GameScreen.setBounds(0, 0, 444, 421);
 		contentPane.add(GameScreen);
 		GameScreen.setLayout(new GridLayout(0, 3, 0, 0));
@@ -112,6 +120,45 @@ public class GameController extends JFrame {
 		btn8.setVerticalAlignment(SwingConstants.TOP);
 		btn8.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn8);
+		ClientScreen.setName("ClientScreen");
+		ClientScreen.setBounds(0, 0, 444, 421);
+		contentPane.add(ClientScreen);
+		ClientScreen.setLayout(null);
+		ClientScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		JLabel label = new JLabel("Type in the code from the other player!");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		label.setAlignmentX(0.5f);
+		label.setBounds(10, 11, 424, 118);
+		ClientScreen.add(label);
+
+		JButton backToStartClient = new JButton("Or go back to player select");
+		backToStartClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				show("StartScreen");
+			}
+		});
+		backToStartClient.setBounds(108, 269, 230, 118);
+		ClientScreen.add(backToStartClient);
+
+		textField = new JTextField();
+		textField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					s = new Socket("192.168.1." + textField.getText(), 6666);
+					show("GameScreen");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		textField.setBounds(108, 140, 230, 47);
+		ClientScreen.add(textField);
+		textField.setColumns(10);
 
 		// START SCREEN
 
@@ -129,6 +176,12 @@ public class GameController extends JFrame {
 		XButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				show("ServerScreen");
+				try {
+					s = new Socket("localhost", 6666);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		StartScreen.add(XButton);
@@ -136,6 +189,7 @@ public class GameController extends JFrame {
 		JButton OButton = new JButton("O");
 		OButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				show("ClientScreen");
 			}
 		});
 		OButton.setBounds(220, 11, 214, 399);
@@ -146,8 +200,8 @@ public class GameController extends JFrame {
 		// SERVER SCREEN
 
 		JPanel ServerScreen = new JPanel();
-		ServerScreen.setName("ServerScreen");
 		ServerScreen.setVisible(false);
+		ServerScreen.setName("ServerScreen");
 		ServerScreen.setLayout(null);
 		ServerScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
 		ServerScreen.setBounds(0, 0, 444, 421);
@@ -178,40 +232,10 @@ public class GameController extends JFrame {
 		backToStartServer.setBounds(108, 269, 230, 118);
 		ServerScreen.add(backToStartServer);
 
-		// CLIENT SCREEN
-
-		JPanel ClientScreen = new JPanel();
-		ClientScreen.setName("ClientScreen");
-		ClientScreen.setBounds(0, 0, 444, 421);
-		contentPane.add(ClientScreen);
-		ClientScreen.setLayout(null);
-		ClientScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		JLabel label = new JLabel("Type in the code from the other player!");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		label.setAlignmentX(0.5f);
-		label.setBounds(10, 11, 424, 118);
-		ClientScreen.add(label);
-
-		JButton backToStartClient = new JButton("Or go back to player select");
-		backToStartClient.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ClientScreen.setVisible(false);
-				StartScreen.setVisible(true);
-			}
-		});
-		backToStartClient.setBounds(108, 269, 230, 118);
-		ClientScreen.add(backToStartClient);
-
-		textField = new JTextField();
-		textField.setBounds(108, 140, 230, 47);
-		ClientScreen.add(textField);
-		textField.setColumns(10);
-
 		// LOST SCREEN
 
 		JPanel YouLostScreen = new JPanel();
+		YouLostScreen.setVisible(false);
 		YouLostScreen.setName("YouLostScreen");
 		YouLostScreen.setBounds(0, 0, 444, 421);
 		contentPane.add(YouLostScreen);
@@ -224,6 +248,11 @@ public class GameController extends JFrame {
 		YouLostScreen.add(LostLabel);
 
 		JButton lostTryAgain = new JButton("Try again");
+		lostTryAgain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				show("GameScreen");
+			}
+		});
 		lostTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lostTryAgain.setBounds(140, 244, 164, 83);
 		YouLostScreen.add(lostTryAgain);
@@ -231,6 +260,7 @@ public class GameController extends JFrame {
 		// WON SCREEN
 
 		JPanel YouWonScreen = new JPanel();
+		YouWonScreen.setVisible(false);
 		YouWonScreen.setName("YouWonScreen");
 		YouWonScreen.setBounds(0, 0, 444, 421);
 		contentPane.add(YouWonScreen);
@@ -251,6 +281,30 @@ public class GameController extends JFrame {
 		wonTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		wonTryAgain.setBounds(140, 244, 164, 83);
 		YouWonScreen.add(wonTryAgain);
+
+		// TIE SCREEN
+
+		JPanel TieScreen = new JPanel();
+		TieScreen.setName("TieScreen");
+		TieScreen.setBounds(0, 0, 444, 421);
+		contentPane.add(TieScreen);
+		TieScreen.setLayout(null);
+
+		JLabel TieLabel = new JLabel("It's a tie!");
+		TieLabel.setForeground(Color.BLUE);
+		TieLabel.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		TieLabel.setBounds(146, 85, 158, 59);
+		TieScreen.add(TieLabel);
+
+		JButton tieTryAgain = new JButton("Try again");
+		tieTryAgain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				show("GameScreen");
+			}
+		});
+		tieTryAgain.setBounds(140, 244, 164, 83);
+		tieTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		TieScreen.add(tieTryAgain);
 
 		for (Component component : contentPane.getComponents()) {
 			if (component instanceof JPanel) {
