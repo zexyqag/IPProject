@@ -51,9 +51,9 @@ public class Client extends JFrame {
 				try {
 					Client frame = new Client();
 					frame.setVisible(true);
-					Update update = new Update(frame);
-					Thread updateThread = new Thread(update, "UpdateThread");
-					updateThread.start();
+					//Update update = new Update(frame);
+					//Thread updateThread = new Thread(update, "UpdateThread");
+					//updateThread.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
