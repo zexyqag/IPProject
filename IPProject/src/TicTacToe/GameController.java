@@ -151,6 +151,7 @@ public class GameController extends JFrame {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+
 				}
 			}
 		});
@@ -176,6 +177,9 @@ public class GameController extends JFrame {
 		XButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				show("ServerScreen");
+				Server server = new Server();
+				Thread serverThread = new Thread(server, "ServerThread");
+				serverThread.start();
 				try {
 					s = new Socket("localhost", 6666);
 				} catch (IOException e1) {
