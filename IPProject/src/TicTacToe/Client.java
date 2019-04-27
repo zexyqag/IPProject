@@ -4,12 +4,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DebugGraphics;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Component;
@@ -30,11 +33,13 @@ public class Client extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static ArrayList<JPanel> menuScreens = new ArrayList<>();
+	private ArrayList<JPanel> menuScreens = new ArrayList<>();
 	private JTextField textField;
 	private Socket s;
-	private static DataOutputStream dout;
-	private static DataInputStream dis;
+	private DataOutputStream dout;
+	private DataInputStream dis;
+	private Server server;
+	
 
 	/**
 	 * Launch the application.
@@ -46,33 +51,14 @@ public class Client extends JFrame {
 				try {
 					Client frame = new Client();
 					frame.setVisible(true);
+					Update update = new Update(frame);
+					Thread updateThread = new Thread(update, "UpdateThread");
+					updateThread.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-
-		while (true) {
-
-			try {
-				if (dis != null) {
-					int length = dis.available();
-					byte[] buf = new byte[length];
-					dis.readFully(buf);
-					for (byte b : buf) {
-						int action = (int) b;
-						System.out.println(action);
-						if (action == 12) {
-							show("GameScreen");
-						}
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 	/**
@@ -104,47 +90,137 @@ public class Client extends JFrame {
 		GameScreen.setLayout(new GridLayout(0, 3, 0, 0));
 
 		JButton btn0 = new JButton("");
+		btn0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(0);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn0.setVerticalAlignment(SwingConstants.TOP);
 		btn0.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn0);
 
 		JButton btn1 = new JButton("");
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(1);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn1.setVerticalAlignment(SwingConstants.TOP);
 		btn1.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn1);
 
 		JButton btn2 = new JButton("");
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(2);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn2.setVerticalAlignment(SwingConstants.TOP);
 		btn2.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn2);
 
 		JButton btn3 = new JButton("");
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(3);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn3.setVerticalAlignment(SwingConstants.TOP);
 		btn3.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn3);
 
 		JButton btn4 = new JButton("");
+		btn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(4);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn4.setVerticalAlignment(SwingConstants.TOP);
 		btn4.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		btn4.setHorizontalTextPosition(SwingConstants.CENTER);
 		GameScreen.add(btn4);
 
 		JButton btn5 = new JButton("");
+		btn5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(5);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn5.setVerticalAlignment(SwingConstants.TOP);
 		btn5.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn5);
 
 		JButton btn6 = new JButton("");
+		btn6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(6);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn6.setVerticalAlignment(SwingConstants.TOP);
 		btn6.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn6);
 
 		JButton btn7 = new JButton("");
+		btn7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(7);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn7.setVerticalAlignment(SwingConstants.TOP);
 		btn7.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn7);
 
 		JButton btn8 = new JButton("");
+		btn8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dout.writeInt(8);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btn8.setVerticalAlignment(SwingConstants.TOP);
 		btn8.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn8);
@@ -176,12 +252,11 @@ public class Client extends JFrame {
 				try {
 					s = new Socket("192.168.1." + textField.getText(), 6666);
 					dout = new DataOutputStream(s.getOutputStream());
-					dis = new DataInputStream(s.getInputStream());
+					setDis(new DataInputStream(s.getInputStream()));
 					show("GameScreen");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-
 				}
 			}
 		});
@@ -206,13 +281,13 @@ public class Client extends JFrame {
 		XButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		XButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Server server = new Server();
+				server = new Server();
 				Thread serverThread = new Thread(server, "ServerThread");
 				serverThread.start();
 				try {
 					s = new Socket("localhost", 6666);
 					dout = new DataOutputStream(s.getOutputStream());
-					dis = new DataInputStream(s.getInputStream());
+					setDis(new DataInputStream(s.getInputStream()));
 					show("ServerScreen");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -349,7 +424,7 @@ public class Client extends JFrame {
 		}
 	}
 
-	public static void show(String screen) {
+	public void show(String screen) {
 		for (JPanel scr : menuScreens) {
 			if (screen == scr.getName()) {
 				scr.setVisible(true);
@@ -357,5 +432,13 @@ public class Client extends JFrame {
 				scr.setVisible(false);
 			}
 		}
+	}
+
+	public DataInputStream getDis() {
+		return dis;
+	}
+
+	public void setDis(DataInputStream dis) {
+		this.dis = dis;
 	}
 }

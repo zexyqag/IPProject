@@ -22,21 +22,22 @@ public class Server implements Runnable {
 			ServerSocket ss = new ServerSocket(6666);
 			System.out.println("Waiting for connection from player 1");
 			Socket player1 = ss.accept();
-			System.out.println("Player 1 onnected!");
-			Socket player2 = ss.accept();
-			System.out.println("Player 2 onnected!");
-
 			DataInputStream player1dis = new DataInputStream(player1.getInputStream());
 			DataOutputStream player1dout = new DataOutputStream(player1.getOutputStream());
+			System.out.println("Player 1 onnected!");
+			Socket player2 = ss.accept();
 			DataInputStream player2dis = new DataInputStream(player2.getInputStream());
 			DataOutputStream player2dout = new DataOutputStream(player2.getOutputStream());
+			System.out.println("Player 2 onnected!");
 			player1dout.writeInt(12);
 			System.out.println("Game can now begin");
-
+			
 			while (true) {
+				turn++;
 				if (turn % 2 == 0) {
 					System.out.println("Player 1s turn");
 					int play = player1dis.readInt();
+					System.out.println("Playerawdawd");
 					board[play] = 1;
 					player1dout.writeInt(play);
 					player2dout.writeInt(play);
@@ -58,9 +59,8 @@ public class Server implements Runnable {
 					player2dout.writeInt(11);
 					break;
 				}
-				turn++;
+				
 			}
-			
 			player1dis.close();
 			player1dout.close();
 			player2dis.close();
