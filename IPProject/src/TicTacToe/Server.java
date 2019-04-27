@@ -30,6 +30,7 @@ public class Server implements Runnable {
 			DataOutputStream player1dout = new DataOutputStream(player1.getOutputStream());
 			DataInputStream player2dis = new DataInputStream(player2.getInputStream());
 			DataOutputStream player2dout = new DataOutputStream(player2.getOutputStream());
+			player1dout.writeInt(12);
 			System.out.println("Game can now begin");
 
 			while (true) {
@@ -49,12 +50,12 @@ public class Server implements Runnable {
 					System.out.println("Player 2 played their turn");
 				}
 				if (hasWinner()) {
-					player1dout.writeChars(Integer.toString(turn % 2));
-					player2dout.writeChars(Integer.toString(turn % 2));
+					player1dout.writeInt(9+turn % 2);
+					player2dout.writeInt(9+turn % 2);
 					break;
 				} else if (noWinner()) {
-					player1dout.writeChars(Integer.toString(2));
-					player2dout.writeChars(Integer.toString(2));
+					player1dout.writeInt(11);
+					player2dout.writeInt(11);
 					break;
 				}
 				turn++;
