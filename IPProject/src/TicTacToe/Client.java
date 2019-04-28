@@ -19,10 +19,9 @@ import java.util.ArrayList;
 
 import java.awt.GridLayout;
 import javax.swing.JTextField;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class Client extends JFrame {
 
@@ -38,7 +37,6 @@ public class Client extends JFrame {
 	private Server server;
 	public int turn = 0;
 	private int player;
-	private JLabel Playing;
 
 	/**
 	 * Launch the application.
@@ -91,45 +89,12 @@ public class Client extends JFrame {
 		GameScreen.setName("GameScreen");
 		GameScreen.setBounds(0, 0, 444, 421);
 		contentPane.add(GameScreen);
-
-		JButton btn0 = new JButton("");
-		btn0.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(0);
-			}
-		});
-		GameScreen.setLayout(new FormLayout(
-				new ColumnSpec[] { ColumnSpec.decode("148px"), ColumnSpec.decode("148px"),
-						ColumnSpec.decode("148px"), },
-				new RowSpec[] { RowSpec.decode("30px"), RowSpec.decode("130px"), RowSpec.decode("130px"),
-						RowSpec.decode("131px"), }));
-
-		JLabel Playing = new JLabel("");
-		Playing.setHorizontalAlignment(SwingConstants.CENTER);
-		GameScreen.add(Playing, "1, 1, 3, 1");
-		btn0.setVerticalAlignment(SwingConstants.TOP);
-		btn0.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn0, "1, 3, fill, fill");
-
-		JButton btn1 = new JButton("");
-		btn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(1);
-			}
-		});
-		btn1.setVerticalAlignment(SwingConstants.TOP);
-		btn1.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn1, "2, 3, fill, fill");
-
-		JButton btn2 = new JButton("");
-		btn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(2);
-			}
-		});
-		btn2.setVerticalAlignment(SwingConstants.TOP);
-		btn2.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn2, "3, 3, fill, fill");
+		GridBagLayout gbl_GameScreen = new GridBagLayout();
+		gbl_GameScreen.columnWidths = new int[] { 148, 148, 148, 0 };
+		gbl_GameScreen.rowHeights = new int[] { 130, 130, 130, 30, 0 };
+		gbl_GameScreen.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_GameScreen.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		GameScreen.setLayout(gbl_GameScreen);
 
 		JButton btn3 = new JButton("");
 		btn3.addActionListener(new ActionListener() {
@@ -137,9 +102,74 @@ public class Client extends JFrame {
 				buttonPressed(3);
 			}
 		});
+
+		JButton btn2 = new JButton("");
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(2);
+			}
+		});
+
+		JButton btn1 = new JButton("");
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(1);
+			}
+		});
+
+		JButton btn0 = new JButton("");
+		btn0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(0);
+			}
+		});
+		btn0.setVerticalAlignment(SwingConstants.TOP);
+		btn0.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GridBagConstraints gbc_btn0 = new GridBagConstraints();
+		gbc_btn0.fill = GridBagConstraints.BOTH;
+		gbc_btn0.insets = new Insets(0, 0, 5, 5);
+		gbc_btn0.gridx = 0;
+		gbc_btn0.gridy = 0;
+		GameScreen.add(btn0, gbc_btn0);
+		btn1.setVerticalAlignment(SwingConstants.TOP);
+		btn1.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GridBagConstraints gbc_btn1 = new GridBagConstraints();
+		gbc_btn1.fill = GridBagConstraints.BOTH;
+		gbc_btn1.insets = new Insets(0, 0, 5, 5);
+		gbc_btn1.gridx = 1;
+		gbc_btn1.gridy = 0;
+		GameScreen.add(btn1, gbc_btn1);
+		btn2.setVerticalAlignment(SwingConstants.TOP);
+		btn2.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GridBagConstraints gbc_btn2 = new GridBagConstraints();
+		gbc_btn2.fill = GridBagConstraints.BOTH;
+		gbc_btn2.insets = new Insets(0, 0, 5, 0);
+		gbc_btn2.gridx = 2;
+		gbc_btn2.gridy = 0;
+		GameScreen.add(btn2, gbc_btn2);
 		btn3.setVerticalAlignment(SwingConstants.TOP);
 		btn3.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn3, "1, 2, fill, fill");
+		GridBagConstraints gbc_btn3 = new GridBagConstraints();
+		gbc_btn3.fill = GridBagConstraints.BOTH;
+		gbc_btn3.insets = new Insets(0, 0, 5, 5);
+		gbc_btn3.gridx = 0;
+		gbc_btn3.gridy = 1;
+		GameScreen.add(btn3, gbc_btn3);
+
+		JButton btn7 = new JButton("");
+		btn7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(7);
+			}
+		});
+
+		JButton btn6 = new JButton("");
+		btn6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(6);
+
+			}
+		});
 
 		JButton btn4 = new JButton("");
 		btn4.addActionListener(new ActionListener() {
@@ -150,7 +180,12 @@ public class Client extends JFrame {
 		btn4.setVerticalAlignment(SwingConstants.TOP);
 		btn4.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		btn4.setHorizontalTextPosition(SwingConstants.CENTER);
-		GameScreen.add(btn4, "2, 2, fill, fill");
+		GridBagConstraints gbc_btn4 = new GridBagConstraints();
+		gbc_btn4.fill = GridBagConstraints.BOTH;
+		gbc_btn4.insets = new Insets(0, 0, 5, 5);
+		gbc_btn4.gridx = 1;
+		gbc_btn4.gridy = 1;
+		GameScreen.add(btn4, gbc_btn4);
 
 		JButton btn5 = new JButton("");
 		btn5.addActionListener(new ActionListener() {
@@ -160,28 +195,28 @@ public class Client extends JFrame {
 		});
 		btn5.setVerticalAlignment(SwingConstants.TOP);
 		btn5.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn5, "3, 2, fill, fill");
-
-		JButton btn6 = new JButton("");
-		btn6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(6);
-
-			}
-		});
+		GridBagConstraints gbc_btn5 = new GridBagConstraints();
+		gbc_btn5.fill = GridBagConstraints.BOTH;
+		gbc_btn5.insets = new Insets(0, 0, 5, 0);
+		gbc_btn5.gridx = 2;
+		gbc_btn5.gridy = 1;
+		GameScreen.add(btn5, gbc_btn5);
 		btn6.setVerticalAlignment(SwingConstants.TOP);
 		btn6.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn6, "1, 4, fill, fill");
-
-		JButton btn7 = new JButton("");
-		btn7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(7);
-			}
-		});
+		GridBagConstraints gbc_btn6 = new GridBagConstraints();
+		gbc_btn6.fill = GridBagConstraints.BOTH;
+		gbc_btn6.insets = new Insets(0, 0, 5, 5);
+		gbc_btn6.gridx = 0;
+		gbc_btn6.gridy = 2;
+		GameScreen.add(btn6, gbc_btn6);
 		btn7.setVerticalAlignment(SwingConstants.TOP);
 		btn7.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn7, "2, 4, fill, fill");
+		GridBagConstraints gbc_btn7 = new GridBagConstraints();
+		gbc_btn7.fill = GridBagConstraints.BOTH;
+		gbc_btn7.insets = new Insets(0, 0, 5, 5);
+		gbc_btn7.gridx = 1;
+		gbc_btn7.gridy = 2;
+		GameScreen.add(btn7, gbc_btn7);
 
 		JButton btn8 = new JButton("");
 		btn8.addActionListener(new ActionListener() {
@@ -191,7 +226,21 @@ public class Client extends JFrame {
 		});
 		btn8.setVerticalAlignment(SwingConstants.TOP);
 		btn8.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn8, "3, 4, fill, fill");
+		GridBagConstraints gbc_btn8 = new GridBagConstraints();
+		gbc_btn8.insets = new Insets(0, 0, 5, 0);
+		gbc_btn8.fill = GridBagConstraints.BOTH;
+		gbc_btn8.gridx = 2;
+		gbc_btn8.gridy = 2;
+		GameScreen.add(btn8, gbc_btn8);
+
+		JLabel Playing = new JLabel("");
+		Playing.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_Playing = new GridBagConstraints();
+		gbc_Playing.gridwidth = 3;
+		gbc_Playing.insets = new Insets(0, 0, 0, 5);
+		gbc_Playing.gridx = 0;
+		gbc_Playing.gridy = 3;
+		GameScreen.add(Playing, gbc_Playing);
 		ServerScreen.setName("ServerScreen");
 		ServerScreen.setLayout(null);
 		ServerScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -452,11 +501,6 @@ public class Client extends JFrame {
 		default:
 			turn++;
 		}
-		Playing.setText(Integer(player).toString());
-	}
 
-	private Object Integer(int player2) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
