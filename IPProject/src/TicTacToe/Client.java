@@ -392,7 +392,9 @@ public class Client extends JFrame {
 
 	public void buttonPressed(int btnum) {
 		if (gameBtns[btnum].getText() == "" && turn % 2 == 0) {
+			System.out.println("i play "+btnum);
 			thing.clientEvents(btnum);
+			System.out.println("i played "+btnum);
 		}
 	}
 

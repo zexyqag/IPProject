@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.concurrent.TimeUnit;
 
 public class ServerEventHandeler implements Runnable {
 
@@ -30,6 +29,7 @@ public class ServerEventHandeler implements Runnable {
 			}else {
 				try {
 					Thread.sleep(1000);
+					System.out.println("a sec plz");
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
