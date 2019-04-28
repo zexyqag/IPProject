@@ -46,7 +46,7 @@ public class Server implements Runnable {
 			
 			while (true) {
 				turn++;
-				if (turn % 2 == 0) {
+				if (turn % 2 == 1) {
 					System.out.println("Player 1s turn");
 					int play = player1dis.readInt();
 					board[play] = 1;
@@ -62,8 +62,14 @@ public class Server implements Runnable {
 					System.out.println("Player 2 played their turn");
 				}
 				if (hasWinner()) {
-					player1dout.writeInt(9+turn % 2);
-					player2dout.writeInt(9+turn % 2);
+					if(turn % 2 == 1) {
+						player1dout.writeInt(9);
+						player2dout.writeInt(10);
+					} else if (turn % 2 == 0) {
+						player1dout.writeInt(10);
+						player2dout.writeInt(9);
+					}
+					
 					break;
 				} else if (noWinner()) {
 					player1dout.writeInt(11);

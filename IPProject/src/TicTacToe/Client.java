@@ -163,12 +163,7 @@ public class Client extends JFrame {
 		JButton btn0 = new JButton("");
 		btn0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(0);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(0);
 			}
 		});
 		btn0.setVerticalAlignment(SwingConstants.TOP);
@@ -178,12 +173,7 @@ public class Client extends JFrame {
 		JButton btn1 = new JButton("");
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(1);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(1);
 			}
 		});
 		btn1.setVerticalAlignment(SwingConstants.TOP);
@@ -193,12 +183,7 @@ public class Client extends JFrame {
 		JButton btn2 = new JButton("");
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(2);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(2);
 			}
 		});
 		btn2.setVerticalAlignment(SwingConstants.TOP);
@@ -208,12 +193,7 @@ public class Client extends JFrame {
 		JButton btn3 = new JButton("");
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(3);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(3);
 			}
 		});
 		btn3.setVerticalAlignment(SwingConstants.TOP);
@@ -223,12 +203,7 @@ public class Client extends JFrame {
 		JButton btn4 = new JButton("");
 		btn4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(4);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(4);
 			}
 		});
 		btn4.setVerticalAlignment(SwingConstants.TOP);
@@ -239,12 +214,7 @@ public class Client extends JFrame {
 		JButton btn5 = new JButton("");
 		btn5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(5);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(5);
 			}
 		});
 		btn5.setVerticalAlignment(SwingConstants.TOP);
@@ -254,12 +224,8 @@ public class Client extends JFrame {
 		JButton btn6 = new JButton("");
 		btn6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(6);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(6);
+
 			}
 		});
 		btn6.setVerticalAlignment(SwingConstants.TOP);
@@ -269,12 +235,7 @@ public class Client extends JFrame {
 		JButton btn7 = new JButton("");
 		btn7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(7);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(7);
 			}
 		});
 		btn7.setVerticalAlignment(SwingConstants.TOP);
@@ -284,12 +245,7 @@ public class Client extends JFrame {
 		JButton btn8 = new JButton("");
 		btn8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					dout.writeInt(8);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				buttonPressed(8);
 			}
 		});
 		btn8.setVerticalAlignment(SwingConstants.TOP);
@@ -484,6 +440,17 @@ public class Client extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 13;
+		}
+	}
+	
+	public void buttonPressed(int btnum) {
+		if(gameBtns[btnum].getText() == "" && turn % 2 == 0) {
+			try {
+				dout.writeInt(btnum);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 }
