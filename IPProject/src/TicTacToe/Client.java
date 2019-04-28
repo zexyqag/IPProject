@@ -131,11 +131,11 @@ public class Client extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					SEH.connectToServer(InetAddress.getLocalHost().getHostAddress().replaceAll("(.*\\.)\\d+$", "$1") + textField.getText());
+					show("GameScreen");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					textField.setText("Wrong code");
 				}
-				show("GameScreen");
+				
 			}
 		});
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
