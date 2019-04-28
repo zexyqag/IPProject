@@ -33,8 +33,6 @@ public class Client extends JFrame {
 	private ServerEventHandeler thing;
 	private Server server;
 	public int turn;
-	// public static Client frame;
-	// public static ServerEventHandeler seh;
 
 	/**
 	 * Launch the application.
@@ -62,8 +60,6 @@ public class Client extends JFrame {
 	 * @throws UnknownHostException
 	 */
 	public Client() throws UnknownHostException {
-		
-
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(450, 450, 450, 450);
@@ -247,7 +243,7 @@ public class Client extends JFrame {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					thing.connectToServer(textField.getText());
+					thing.connectToServer("192.168.1."+textField.getText());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -281,7 +277,7 @@ public class Client extends JFrame {
 				serverThread.start();
 				show("ServerScreen");
 				try {
-					thing.connectToServer("localhost");
+					thing.connectToServer(InetAddress.getLocalHost().getHostAddress());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

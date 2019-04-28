@@ -17,7 +17,6 @@ public class ServerEventHandeler implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
-			System.out.println("awd");
 			if (dis != null) {
 				try {
 					client.serverEvents(dis.readInt());
@@ -50,6 +49,7 @@ public class ServerEventHandeler implements Runnable {
 		s = new Socket(string, 6666);
 		dout = new DataOutputStream(s.getOutputStream());
 		dis = new DataInputStream(s.getInputStream());
+		System.out.println("yaa");
 	}
 
 	public void DisconnectFromServer() {
