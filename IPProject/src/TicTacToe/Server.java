@@ -62,6 +62,7 @@ public class Server implements Runnable {
 					System.out.println("Player 2 played their turn");
 				}
 				if (hasWinner()) {
+					board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 					if(turn % 2 == 1) {
 						player1dout.writeInt(9);
 						player2dout.writeInt(10);
@@ -70,18 +71,19 @@ public class Server implements Runnable {
 						player2dout.writeInt(9);
 					}
 					
-					break;
+					
 				} else if (noWinner()) {
+					board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 					player1dout.writeInt(11);
 					player2dout.writeInt(11);
-					break;
+					
 				}
 				
 			}
-			player1.close();
-			player2.close();
+			//player1.close();
+			//player2.close();
 			
-			ss.close();
+			//ss.close();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

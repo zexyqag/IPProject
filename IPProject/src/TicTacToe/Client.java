@@ -319,6 +319,10 @@ public class Client extends JFrame {
 		lostTryAgain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				show("GameScreen");
+				for (JButton element : gameBtns) {
+					element.setText("");
+					turn = 0;
+				}
 			}
 		});
 		lostTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
@@ -344,6 +348,10 @@ public class Client extends JFrame {
 		wonTryAgain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				show("GameScreen");
+				for (JButton element : gameBtns) {
+					element.setText("");
+					turn = 0;
+				}
 			}
 		});
 		wonTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
@@ -368,6 +376,10 @@ public class Client extends JFrame {
 		tieTryAgain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				show("GameScreen");
+				for (JButton element : gameBtns) {
+					element.setText("");
+					turn = 0;
+				}
 			}
 		});
 		tieTryAgain.setBounds(140, 244, 164, 83);
@@ -401,7 +413,7 @@ public class Client extends JFrame {
 
 	public void serverEvents(int action) {
 		if (action >= 0 && action <= 8) {
-			gameBtns[action].setText(turn % 2 == player ? "X" : "O");
+			gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
 		}
 		switch (action) {
 		case 9:
