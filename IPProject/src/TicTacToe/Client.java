@@ -27,14 +27,14 @@ public class Client extends JFrame {
 	/**
 	 * 
 	 */
-	public static final long serialVersionUID = 1L;
-	public JPanel contentPane;
-	public ArrayList<JPanel> menuScreens = new ArrayList<>();
-	public JButton[] gameBtns;
-	public JTextField textField;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private ArrayList<JPanel> menuScreens = new ArrayList<>();
+	private JButton[] gameBtns;
+	private JTextField textField;
 	private ServerEventHandeler SEH;
 	private Server server;
-	public int turn = 0;
+	private int turn = 0;
 	private int player;
 
 	/**

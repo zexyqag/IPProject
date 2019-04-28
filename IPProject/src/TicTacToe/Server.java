@@ -111,15 +111,25 @@ public class Server implements Runnable {
 
 	public void theEnd() {
 		try {
+			if (player1dis != null) 
 			player1dis.close();
+			
+			if (player1dout != null) 
 			player1dout.close();
+			
+			if (player1 != null) 
 			player1.close();
-			if (player2 != null) {
-				player2dis.close();
-				player2dout.close();
-				player2.close();
-			}
-
+			
+			if (player2dis != null)
+			player2dis.close();
+			
+			if (player2dout != null)
+			player2dout.close();
+			
+			if (player2 != null)
+			player2.close();
+			
+			if (ss != null)
 			ss.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

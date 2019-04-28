@@ -60,12 +60,16 @@ public class ServerEventHandeler implements Runnable {
 
 	public void DisconnectFromServer() {
 		try {
+			if (s != null)
 			s.close();
+			
+			if (dout != null)
 			dout.close();
+			
+			if (dout != null)
 			dis.close(); 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// TODO Auto-generated catch block 
 		}
 	}
 
