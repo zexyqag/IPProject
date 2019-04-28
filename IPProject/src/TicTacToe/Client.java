@@ -33,6 +33,7 @@ public class Client extends JFrame {
 	private ServerEventHandeler thing;
 	private Server server;
 	public int turn = 0;
+	private int player;
 
 	/**
 	 * Launch the application.
@@ -276,6 +277,7 @@ public class Client extends JFrame {
 				Thread serverThread = new Thread(server, "ServerThread");
 				serverThread.start();
 				show("ServerScreen");
+				player = 0;
 				try {
 					thing.connectToServer(InetAddress.getLocalHost().getHostAddress());
 				} catch (IOException e1) {
@@ -290,6 +292,7 @@ public class Client extends JFrame {
 		OButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				show("ClientScreen");
+				player = 1;
 			}
 		});
 		OButton.setBounds(220, 11, 214, 399);
@@ -391,16 +394,14 @@ public class Client extends JFrame {
 	}
 
 	public void buttonPressed(int btnum) {
-		if (gameBtns[btnum].getText() == "" && turn % 2 == 0) {
-			System.out.println("i play "+btnum);
+		if (gameBtns[btnum].getText() == "" && turn % 2 == player) {
 			thing.clientEvents(btnum);
-			System.out.println("i played "+btnum);
 		}
 	}
 
 	public void serverEvents(int action) {
 		if (action >= 0 && action <= 8) {
-			gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
+			gameBtns[action].setText(turn % 2 == player ? "X" : "O");
 		}
 		switch (action) {
 		case 9:
@@ -418,7 +419,7 @@ public class Client extends JFrame {
 		case 13:
 			break;
 		default:
-			System.out.print(turn++);
+			turn++;
 		}
 
 	}
