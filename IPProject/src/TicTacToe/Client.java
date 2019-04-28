@@ -7,8 +7,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -16,7 +14,6 @@ import java.awt.Component;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -28,18 +25,16 @@ public class Client extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private static ArrayList<JPanel> menuScreens = new ArrayList<>();
-	private static JButton[] gameBtns;
-	private JTextField textField;
-	private Socket s;
-	private DataOutputStream dout;
-	private static DataInputStream dis;
+	public static final long serialVersionUID = 1L;
+	public JPanel contentPane;
+	public ArrayList<JPanel> menuScreens = new ArrayList<>();
+	public JButton[] gameBtns;
+	public JTextField textField;
+	private ServerEventHandeler thing;
 	private Server server;
-	private static int turn;
-	private static Client frame;
-	
+	public int turn;
+	// public static Client frame;
+	// public static ServerEventHandeler seh;
 
 	/**
 	 * Launch the application.
@@ -49,44 +44,17 @@ public class Client extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame = new Client();
+					Client frame = new Client();
 					frame.setVisible(true);
-					//Update update = new Update(frame);
-					//Thread updateThread = new Thread(update, "UpdateThread");
-					//updateThread.start();
-
+					frame.thing = new ServerEventHandeler(frame);
+					Thread worker = new Thread(frame.thing, "ThingThread");
+					worker.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		while (true) {
-			int action = getDisInt();
-			if (action >= 0 && action <= 8) {
-				gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
-			}
-			switch (action) {
-			case 9:
-				show("YouWonScreen");
-				break;
-			case 10:
-				show("YouLostScreen");
-				break;
-			case 11:
-				show("TieScreen");
-				break;
-			case 12:
-				show("GameScreen");
-				break;
-			case 13:
-				break;
-			default:
-				turn++;
-			}
-		}
 	}
-
-	
 
 	/**
 	 * Create the frame.
@@ -94,6 +62,8 @@ public class Client extends JFrame {
 	 * @throws UnknownHostException
 	 */
 	public Client() throws UnknownHostException {
+		
+
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(450, 450, 450, 450);
@@ -277,14 +247,12 @@ public class Client extends JFrame {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					s = new Socket("192.168.1." + textField.getText(), 6666);
-					dout = new DataOutputStream(s.getOutputStream());
-					dis = new DataInputStream(s.getInputStream());
-					show("GameScreen");
+					thing.connectToServer(textField.getText());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				show("GameScreen");
 			}
 		});
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -311,11 +279,9 @@ public class Client extends JFrame {
 				server = new Server();
 				Thread serverThread = new Thread(server, "ServerThread");
 				serverThread.start();
+				show("ServerScreen");
 				try {
-					s = new Socket("localhost", 6666);
-					dout = new DataOutputStream(s.getOutputStream());
-					dis = new DataInputStream(s.getInputStream());
-					show("ServerScreen");
+					thing.connectToServer("localhost");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -408,9 +374,8 @@ public class Client extends JFrame {
 		tieTryAgain.setBounds(140, 244, 164, 83);
 		tieTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		TieScreen.add(tieTryAgain);
-		
-		
-		gameBtns = new JButton[] {btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8};
+
+		gameBtns = new JButton[] { btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8 };
 
 		for (Component component : contentPane.getComponents()) {
 			if (component instanceof JPanel) {
@@ -419,7 +384,7 @@ public class Client extends JFrame {
 		}
 	}
 
-	public static void show(String screen) {
+	public void show(String screen) {
 		for (JPanel scr : menuScreens) {
 			if (screen == scr.getName()) {
 				scr.setVisible(true);
@@ -429,28 +394,34 @@ public class Client extends JFrame {
 		}
 	}
 
-	public static int getDisInt() {
-		try {
-			if (dis != null) {
-				return dis.readInt();
-			} else {
-				return 13;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return 13;
+	public void buttonPressed(int btnum) {
+		if (gameBtns[btnum].getText() == "" && turn % 2 == 0) {
+			thing.clientEvents(btnum);
 		}
 	}
-	
-	public void buttonPressed(int btnum) {
-		if(gameBtns[btnum].getText() == "" && turn % 2 == 0) {
-			try {
-				dout.writeInt(btnum);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+
+	public void serverEvents(int action) {
+		if (action >= 0 && action <= 8) {
+			gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
 		}
+		switch (action) {
+		case 9:
+			show("YouWonScreen");
+			break;
+		case 10:
+			show("YouLostScreen");
+			break;
+		case 11:
+			show("TieScreen");
+			break;
+		case 12:
+			show("GameScreen");
+			break;
+		case 13:
+			break;
+		default:
+			turn++;
+		}
+
 	}
 }
