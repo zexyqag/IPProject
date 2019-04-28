@@ -32,7 +32,7 @@ public class Client extends JFrame {
 	public JTextField textField;
 	private ServerEventHandeler thing;
 	private Server server;
-	public int turn;
+	public int turn = 0;
 
 	/**
 	 * Launch the application.
@@ -418,7 +418,7 @@ public class Client extends JFrame {
 		case 13:
 			break;
 		default:
-			turn++;
+			System.out.print(turn++);
 		}
 
 	}
