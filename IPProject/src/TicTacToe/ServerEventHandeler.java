@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 public class ServerEventHandeler implements Runnable {
 
@@ -16,7 +17,7 @@ public class ServerEventHandeler implements Runnable {
 
 	public void run() {
 		// TODO Auto-generated method stub
-		while (true) {
+		for (;;) {
 			if (dis != null) {
 				try {
 					client.serverEvents(dis.readInt());
@@ -26,8 +27,14 @@ public class ServerEventHandeler implements Runnable {
 					e.printStackTrace();
 				}
 
+			}else {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-
 		}
 	}
 
@@ -49,7 +56,6 @@ public class ServerEventHandeler implements Runnable {
 		s = new Socket(string, 6666);
 		dout = new DataOutputStream(s.getOutputStream());
 		dis = new DataInputStream(s.getInputStream());
-		System.out.println("yaa");
 	}
 
 	public void DisconnectFromServer() {
