@@ -70,25 +70,19 @@ public class Client extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		this.addWindowListener(new WindowAdapter()
-		{
-		    public void windowClosing(WindowEvent e)
-		    {
-		    	if (server != null) { 
-		    		server.theEnd();
-		    		server = null;
-		    		
-		    	}
-		    	SEH.DisconnectFromServer();
-		         System.out.println("bye!");
-		    }
+		setLocationRelativeTo(null);
+
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				if (server != null) {
+					server.theEnd();
+					server = null;
+
+				}
+				SEH.DisconnectFromServer();
+				System.out.println("bye!");
+			}
 		});
-
-		// CLIENT SCREEN
-
-		JPanel ClientScreen = new JPanel();
-		ClientScreen.setVisible(false);
 
 		// GAME SCREEN
 
@@ -99,6 +93,58 @@ public class Client extends JFrame {
 
 		JPanel ServerScreen = new JPanel();
 		ServerScreen.setVisible(false);
+
+		// CLIENT SCREEN
+
+		JPanel ClientScreen = new JPanel();
+		ClientScreen.setVisible(false);
+		ClientScreen.setName("ClientScreen");
+		ClientScreen.setBounds(0, 0, 444, 421);
+		contentPane.add(ClientScreen);
+		ClientScreen.setLayout(null);
+		ClientScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		JLabel lblTypeInThe = new JLabel("Type in the code from the other player");
+		lblTypeInThe.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTypeInThe.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		lblTypeInThe.setAlignmentX(0.5f);
+		lblTypeInThe.setBounds(10, 23, 424, 86);
+		ClientScreen.add(lblTypeInThe);
+
+		JButton backToStartClient = new JButton("Or go back to player select");
+		backToStartClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				show("StartScreen");
+			}
+		});
+
+		JLabel pressEnter = new JLabel("and press enter!");
+		pressEnter.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		pressEnter.setHorizontalAlignment(SwingConstants.CENTER);
+		pressEnter.setBounds(124, 86, 187, 38);
+		ClientScreen.add(pressEnter);
+		backToStartClient.setBounds(108, 269, 230, 118);
+		ClientScreen.add(backToStartClient);
+
+		textField = new JTextField();
+		textField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					SEH.connectToServer("192.168.1." + textField.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				show("GameScreen");
+			}
+		});
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		textField.setBounds(108, 173, 230, 47);
+		ClientScreen.add(textField);
+		textField.setColumns(10);
+		
+		
 		ServerScreen.setName("ServerScreen");
 		ServerScreen.setLayout(null);
 		ServerScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -131,15 +177,6 @@ public class Client extends JFrame {
 		});
 		backToStartServer.setBounds(108, 269, 230, 118);
 		ServerScreen.add(backToStartServer);
-
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				show("GameScreen");
-			}
-		});
-		btnNewButton.setBounds(165, 122, 89, 23);
-		ServerScreen.add(btnNewButton);
 		GameScreen.setName("GameScreen");
 		GameScreen.setBounds(0, 0, 444, 421);
 		contentPane.add(GameScreen);
@@ -236,45 +273,6 @@ public class Client extends JFrame {
 		btn8.setVerticalAlignment(SwingConstants.TOP);
 		btn8.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		GameScreen.add(btn8);
-		ClientScreen.setName("ClientScreen");
-		ClientScreen.setBounds(0, 0, 444, 421);
-		contentPane.add(ClientScreen);
-		ClientScreen.setLayout(null);
-		ClientScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		JLabel label = new JLabel("Type in the code from the other player!");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		label.setAlignmentX(0.5f);
-		label.setBounds(10, 11, 424, 118);
-		ClientScreen.add(label);
-
-		JButton backToStartClient = new JButton("Or go back to player select");
-		backToStartClient.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				show("StartScreen");
-			}
-		});
-		backToStartClient.setBounds(108, 269, 230, 118);
-		ClientScreen.add(backToStartClient);
-
-		textField = new JTextField();
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					SEH.connectToServer("192.168.1."+textField.getText());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				show("GameScreen");
-			}
-		});
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		textField.setBounds(108, 140, 230, 47);
-		ClientScreen.add(textField);
-		textField.setColumns(10);
 
 		// START SCREEN
 

@@ -8,18 +8,18 @@ import java.net.Socket;
 
 public class Server implements Runnable {
 
-	int[] board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-	int turn;
+	private int[] board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private int turn;
 
-	ServerSocket ss;
+	private ServerSocket ss;
 
-	Socket player1;
-	DataInputStream player1dis;
-	DataOutputStream player1dout;
+	private Socket player1;
+	private DataInputStream player1dis;
+	private DataOutputStream player1dout;
 
-	Socket player2;
-	DataInputStream player2dis;
-	DataOutputStream player2dout;
+	private Socket player2;
+	private DataInputStream player2dis;
+	private DataOutputStream player2dout;
 
 	@Override
 	public void run() {

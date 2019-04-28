@@ -29,7 +29,6 @@ public class ServerEventHandeler implements Runnable {
 			}else {
 				try {
 					Thread.sleep(1000);
-					System.out.println("a sec plz");
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
