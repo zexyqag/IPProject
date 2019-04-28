@@ -130,7 +130,7 @@ public class Client extends JFrame {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SEH.connectToServer("192.168.1." + textField.getText());
+					SEH.connectToServer(InetAddress.getLocalHost().getHostAddress().replaceAll("(.*\\.)\\d+$", "$1") + textField.getText());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -159,7 +159,10 @@ public class Client extends JFrame {
 		ServerScreenGuideText.setBounds(10, 11, 424, 118);
 		ServerScreen.add(ServerScreenGuideText);
 
-		JLabel IPV4Address = new JLabel(InetAddress.getLocalHost().getHostAddress());
+
+		String Ip  = InetAddress.getLocalHost().getHostAddress();
+		
+		JLabel IPV4Address = new JLabel(Ip.replaceAll(Ip.replaceAll("(.*\\.)\\d+$", "$1"),""));
 		IPV4Address.setName("");
 		IPV4Address.setHorizontalAlignment(SwingConstants.CENTER);
 		IPV4Address.setFont(new Font("Tahoma", Font.PLAIN, 30));
