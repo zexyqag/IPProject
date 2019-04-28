@@ -76,6 +76,7 @@ public class Client extends JFrame {
 		    public void windowClosing(WindowEvent e)
 		    {
 		    	if (server != null) { 
+		    		server.theEnd();
 		    		server = null;
 		    		
 		    	}
