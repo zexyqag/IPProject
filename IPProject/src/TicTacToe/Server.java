@@ -80,7 +80,7 @@ public class Server implements Runnable {
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-		}
+		} 
 	}
 
 	// preliminary i swear :)

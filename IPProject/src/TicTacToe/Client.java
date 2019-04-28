@@ -124,6 +124,8 @@ public class Client extends JFrame {
 		JButton backToStartServer = new JButton("Or go back to player select");
 		backToStartServer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				server.theEnd();
+				server = null;
 				show("StartScreen");
 			}
 		});
