@@ -61,9 +61,9 @@ public class Client extends JFrame {
 		});
 		while (true) {
 			int action = getDisInt();
-			System.out.println(action);
 			if (action >= 0 && action <= 8) {
 				gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
+				turn++;
 			}
 			switch (action) {
 			case 9:
@@ -80,8 +80,6 @@ public class Client extends JFrame {
 				break;
 			case 13:
 				break;
-			default:
-				turn++;
 			}
 		}
 	}
