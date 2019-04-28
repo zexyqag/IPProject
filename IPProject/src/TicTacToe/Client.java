@@ -19,6 +19,10 @@ import java.util.ArrayList;
 
 import java.awt.GridLayout;
 import javax.swing.JTextField;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
 
 public class Client extends JFrame {
 
@@ -34,6 +38,7 @@ public class Client extends JFrame {
 	private Server server;
 	public int turn = 0;
 	private int player;
+	private JLabel Playing;
 
 	/**
 	 * Launch the application.
@@ -74,15 +79,119 @@ public class Client extends JFrame {
 		JPanel ClientScreen = new JPanel();
 		ClientScreen.setVisible(false);
 
-		// GAME SCREEN
-
-		JPanel GameScreen = new JPanel();
-		GameScreen.setVisible(false);
-
 		// SERVER SCREEN
 
 		JPanel ServerScreen = new JPanel();
 		ServerScreen.setVisible(false);
+
+		// GAME SCREEN
+
+		JPanel GameScreen = new JPanel();
+		GameScreen.setVisible(false);
+		GameScreen.setName("GameScreen");
+		GameScreen.setBounds(0, 0, 444, 421);
+		contentPane.add(GameScreen);
+
+		JButton btn0 = new JButton("");
+		btn0.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(0);
+			}
+		});
+		GameScreen.setLayout(new FormLayout(
+				new ColumnSpec[] { ColumnSpec.decode("148px"), ColumnSpec.decode("148px"),
+						ColumnSpec.decode("148px"), },
+				new RowSpec[] { RowSpec.decode("30px"), RowSpec.decode("130px"), RowSpec.decode("130px"),
+						RowSpec.decode("131px"), }));
+
+		JLabel Playing = new JLabel("");
+		Playing.setHorizontalAlignment(SwingConstants.CENTER);
+		GameScreen.add(Playing, "1, 1, 3, 1");
+		btn0.setVerticalAlignment(SwingConstants.TOP);
+		btn0.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn0, "1, 3, fill, fill");
+
+		JButton btn1 = new JButton("");
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(1);
+			}
+		});
+		btn1.setVerticalAlignment(SwingConstants.TOP);
+		btn1.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn1, "2, 3, fill, fill");
+
+		JButton btn2 = new JButton("");
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(2);
+			}
+		});
+		btn2.setVerticalAlignment(SwingConstants.TOP);
+		btn2.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn2, "3, 3, fill, fill");
+
+		JButton btn3 = new JButton("");
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(3);
+			}
+		});
+		btn3.setVerticalAlignment(SwingConstants.TOP);
+		btn3.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn3, "1, 2, fill, fill");
+
+		JButton btn4 = new JButton("");
+		btn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(4);
+			}
+		});
+		btn4.setVerticalAlignment(SwingConstants.TOP);
+		btn4.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		btn4.setHorizontalTextPosition(SwingConstants.CENTER);
+		GameScreen.add(btn4, "2, 2, fill, fill");
+
+		JButton btn5 = new JButton("");
+		btn5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(5);
+			}
+		});
+		btn5.setVerticalAlignment(SwingConstants.TOP);
+		btn5.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn5, "3, 2, fill, fill");
+
+		JButton btn6 = new JButton("");
+		btn6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(6);
+
+			}
+		});
+		btn6.setVerticalAlignment(SwingConstants.TOP);
+		btn6.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn6, "1, 4, fill, fill");
+
+		JButton btn7 = new JButton("");
+		btn7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(7);
+			}
+		});
+		btn7.setVerticalAlignment(SwingConstants.TOP);
+		btn7.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn7, "2, 4, fill, fill");
+
+		JButton btn8 = new JButton("");
+		btn8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonPressed(8);
+			}
+		});
+		btn8.setVerticalAlignment(SwingConstants.TOP);
+		btn8.setFont(new Font("Tahoma", Font.PLAIN, 99));
+		GameScreen.add(btn8, "3, 4, fill, fill");
 		ServerScreen.setName("ServerScreen");
 		ServerScreen.setLayout(null);
 		ServerScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,102 +231,6 @@ public class Client extends JFrame {
 		});
 		btnNewButton.setBounds(165, 122, 89, 23);
 		ServerScreen.add(btnNewButton);
-		GameScreen.setName("GameScreen");
-		GameScreen.setBounds(0, 0, 444, 421);
-		contentPane.add(GameScreen);
-		GameScreen.setLayout(new GridLayout(0, 3, 0, 0));
-
-		JButton btn0 = new JButton("");
-		btn0.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(0);
-			}
-		});
-		btn0.setVerticalAlignment(SwingConstants.TOP);
-		btn0.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn0);
-
-		JButton btn1 = new JButton("");
-		btn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(1);
-			}
-		});
-		btn1.setVerticalAlignment(SwingConstants.TOP);
-		btn1.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn1);
-
-		JButton btn2 = new JButton("");
-		btn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(2);
-			}
-		});
-		btn2.setVerticalAlignment(SwingConstants.TOP);
-		btn2.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn2);
-
-		JButton btn3 = new JButton("");
-		btn3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(3);
-			}
-		});
-		btn3.setVerticalAlignment(SwingConstants.TOP);
-		btn3.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn3);
-
-		JButton btn4 = new JButton("");
-		btn4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(4);
-			}
-		});
-		btn4.setVerticalAlignment(SwingConstants.TOP);
-		btn4.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		btn4.setHorizontalTextPosition(SwingConstants.CENTER);
-		GameScreen.add(btn4);
-
-		JButton btn5 = new JButton("");
-		btn5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(5);
-			}
-		});
-		btn5.setVerticalAlignment(SwingConstants.TOP);
-		btn5.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn5);
-
-		JButton btn6 = new JButton("");
-		btn6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(6);
-
-			}
-		});
-		btn6.setVerticalAlignment(SwingConstants.TOP);
-		btn6.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn6);
-
-		JButton btn7 = new JButton("");
-		btn7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(7);
-			}
-		});
-		btn7.setVerticalAlignment(SwingConstants.TOP);
-		btn7.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn7);
-
-		JButton btn8 = new JButton("");
-		btn8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonPressed(8);
-			}
-		});
-		btn8.setVerticalAlignment(SwingConstants.TOP);
-		btn8.setFont(new Font("Tahoma", Font.PLAIN, 99));
-		GameScreen.add(btn8);
 		ClientScreen.setName("ClientScreen");
 		ClientScreen.setBounds(0, 0, 444, 421);
 		contentPane.add(ClientScreen);
@@ -244,7 +257,7 @@ public class Client extends JFrame {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					thing.connectToServer("192.168.1."+textField.getText());
+					thing.connectToServer("192.168.1." + textField.getText());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -439,6 +452,11 @@ public class Client extends JFrame {
 		default:
 			turn++;
 		}
+		Playing.setText(Integer(player).toString());
+	}
 
+	private Object Integer(int player2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
