@@ -23,7 +23,7 @@ public class ServerEventHandeler implements Runnable {
 	
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					break;
 				}
 
 			}else {
@@ -59,7 +59,14 @@ public class ServerEventHandeler implements Runnable {
 	}
 
 	public void DisconnectFromServer() {
-
+		try {
+			s.close();
+			dout.close();
+			dis.close(); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
