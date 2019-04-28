@@ -30,14 +30,14 @@ public class Client extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static ArrayList<JPanel> menuScreens = new ArrayList<>();
-	private static JButton[] gameBtns;
+	private ArrayList<JPanel> menuScreens = new ArrayList<>();
+	private JButton[] gameBtns;
 	private JTextField textField;
 	private Socket s;
 	private DataOutputStream dout;
-	private static DataInputStream dis;
+	private DataInputStream dis;
 	private Server server;
-	private static int turn;
+	private int turn;
 	private static Client frame;
 
 	/**
@@ -50,41 +50,16 @@ public class Client extends JFrame {
 				try {
 					frame = new Client();
 					frame.setVisible(true);
-					//Update update = new Update(frame);
-					//Thread updateThread = new Thread(update, "UpdateThread");
-					//updateThread.start();
+					// Update update = new Update(frame);
+					// Thread updateThread = new Thread(update, "UpdateThread");
+					// updateThread.start();
 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		while (true) {
-			int action = getDisInt();
-			if (action >= 0 && action <= 8) {
-				gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
-				turn++;
-			}
-			switch (action) {
-			case 9:
-				show("YouWonScreen");
-				break;
-			case 10:
-				show("YouLostScreen");
-				break;
-			case 11:
-				show("TieScreen");
-				break;
-			case 12:
-				show("GameScreen");
-				break;
-			case 13:
-				break;
-			}
-		}
 	}
-
-	
 
 	/**
 	 * Create the frame.
@@ -406,9 +381,8 @@ public class Client extends JFrame {
 		tieTryAgain.setBounds(140, 244, 164, 83);
 		tieTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		TieScreen.add(tieTryAgain);
-		
-		
-		gameBtns = new JButton[] {btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8};
+
+		gameBtns = new JButton[] { btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8 };
 
 		for (Component component : contentPane.getComponents()) {
 			if (component instanceof JPanel) {
@@ -417,7 +391,7 @@ public class Client extends JFrame {
 		}
 	}
 
-	public static void show(String screen) {
+	public void show(String screen) {
 		for (JPanel scr : menuScreens) {
 			if (screen == scr.getName()) {
 				scr.setVisible(true);
@@ -426,25 +400,48 @@ public class Client extends JFrame {
 			}
 		}
 	}
-
-	public static int getDisInt() {
-		try {
-			if (dis != null) {
-				return dis.readInt();
-			} else {
-				return 13;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
+	/*public static int getDisInt() {
+	try {
+		if (dis != null) {
+			return dis.readInt();
+		} else {
 			return 13;
 		}
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return 13;
 	}
-	
+}*/
+
 	public void buttonPressed(int btnum) {
-		if(gameBtns[btnum].getText() == "" && turn % 2 == 0) {
+		if (gameBtns[btnum].getText() == "" && turn % 2 == 0) {
 			try {
 				dout.writeInt(btnum);
+				int action = dis.readInt();
+				if (action >= 0 && action <= 8) {
+					gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
+				}
+				switch (action) {
+				case 9:
+					show("YouWonScreen");
+					break;
+				case 10:
+					show("YouLostScreen");
+					break;
+				case 11:
+					show("TieScreen");
+					break;
+				case 12:
+					show("GameScreen");
+					break;
+				case 13:
+					break;
+				default:
+					turn++;
+				}
+
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
