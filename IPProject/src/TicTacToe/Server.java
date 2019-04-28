@@ -12,8 +12,16 @@ public class Server implements Runnable {
 	Scanner scanner = new Scanner(System.in);
 	int[] board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	int turn;
+	
 	ServerSocket ss;
-	Socket s;
+	
+	Socket player1;
+	DataInputStream player1dis;
+	DataOutputStream player1dout;
+	
+	Socket player2;
+	DataInputStream player2dis;
+	DataOutputStream player2dout;
 
 	@Override
 	public void run() {
@@ -21,14 +29,18 @@ public class Server implements Runnable {
 		try {
 			ServerSocket ss = new ServerSocket(6666);
 			System.out.println("Waiting for connection from player 1");
-			Socket player1 = ss.accept();
-			DataInputStream player1dis = new DataInputStream(player1.getInputStream());
-			DataOutputStream player1dout = new DataOutputStream(player1.getOutputStream());
-			System.out.println("Player 1 onnected!");
-			Socket player2 = ss.accept();
-			DataInputStream player2dis = new DataInputStream(player2.getInputStream());
-			DataOutputStream player2dout = new DataOutputStream(player2.getOutputStream());
-			System.out.println("Player 2 onnected!");
+			
+			player1 = ss.accept();
+			player1dis = new DataInputStream(player1.getInputStream());
+			
+			player1dout = new DataOutputStream(player1.getOutputStream());
+			System.out.println("Player 1 connected!");
+			
+			player2 = ss.accept();
+			player2dis = new DataInputStream(player2.getInputStream());
+			player2dout = new DataOutputStream(player2.getOutputStream());
+			System.out.println("Player 2 connected!");
+			
 			player1dout.writeInt(12);
 			System.out.println("Game can now begin");
 			
@@ -37,7 +49,6 @@ public class Server implements Runnable {
 				if (turn % 2 == 0) {
 					System.out.println("Player 1s turn");
 					int play = player1dis.readInt();
-					System.out.println("Playerawdawd");
 					board[play] = 1;
 					player1dout.writeInt(play);
 					player2dout.writeInt(play);
@@ -61,10 +72,9 @@ public class Server implements Runnable {
 				}
 				
 			}
-			player1dis.close();
-			player1dout.close();
-			player2dis.close();
-			player2dout.close();
+			player1.close();
+			player2.close();
+			
 			ss.close();
 			
 		} catch (IOException e) {
@@ -86,7 +96,7 @@ public class Server implements Runnable {
 	}
 	public boolean noWinner() {
 		for (int i : board) {
-			if (i != 0) {
+			if (i == 0) {
 				return false;
 			}
 		}

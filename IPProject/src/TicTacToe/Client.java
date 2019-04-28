@@ -4,15 +4,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.DebugGraphics;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Component;
@@ -33,13 +30,15 @@ public class Client extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private ArrayList<JPanel> menuScreens = new ArrayList<>();
+	private static ArrayList<JPanel> menuScreens = new ArrayList<>();
+	private static JButton[] gameBtns;
 	private JTextField textField;
 	private Socket s;
 	private DataOutputStream dout;
-	private DataInputStream dis;
+	private static DataInputStream dis;
 	private Server server;
-	
+	private static int turn;
+	private static Client frame;
 
 	/**
 	 * Launch the application.
@@ -49,17 +48,45 @@ public class Client extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Client frame = new Client();
+					frame = new Client();
 					frame.setVisible(true);
 					//Update update = new Update(frame);
 					//Thread updateThread = new Thread(update, "UpdateThread");
 					//updateThread.start();
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		while (true) {
+			int action = getDisInt();
+			System.out.println(action);
+			if (action >= 0 && action <= 8) {
+				gameBtns[action].setText(turn % 2 == 0 ? "X" : "O");
+			}
+			switch (action) {
+			case 9:
+				show("YouWonScreen");
+				break;
+			case 10:
+				show("YouLostScreen");
+				break;
+			case 11:
+				show("TieScreen");
+				break;
+			case 12:
+				show("GameScreen");
+				break;
+			case 13:
+				break;
+			default:
+				turn++;
+			}
+		}
 	}
+
+	
 
 	/**
 	 * Create the frame.
@@ -84,6 +111,50 @@ public class Client extends JFrame {
 
 		JPanel GameScreen = new JPanel();
 		GameScreen.setVisible(false);
+
+		// SERVER SCREEN
+
+		JPanel ServerScreen = new JPanel();
+		ServerScreen.setVisible(false);
+		ServerScreen.setName("ServerScreen");
+		ServerScreen.setLayout(null);
+		ServerScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
+		ServerScreen.setBounds(0, 0, 444, 421);
+		contentPane.add(ServerScreen);
+
+		JLabel ServerScreenGuideText = new JLabel("Give this to the other player!");
+		ServerScreenGuideText.setHorizontalAlignment(SwingConstants.CENTER);
+		ServerScreenGuideText.setName("");
+		ServerScreenGuideText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		ServerScreenGuideText.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		ServerScreenGuideText.setBounds(10, 11, 424, 118);
+		ServerScreen.add(ServerScreenGuideText);
+
+		JLabel IPV4Address = new JLabel(InetAddress.getLocalHost().getHostAddress());
+		IPV4Address.setName("");
+		IPV4Address.setHorizontalAlignment(SwingConstants.CENTER);
+		IPV4Address.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		IPV4Address.setAlignmentX(0.5f);
+		IPV4Address.setBounds(10, 140, 424, 118);
+		ServerScreen.add(IPV4Address);
+
+		JButton backToStartServer = new JButton("Or go back to player select");
+		backToStartServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				show("StartScreen");
+			}
+		});
+		backToStartServer.setBounds(108, 269, 230, 118);
+		ServerScreen.add(backToStartServer);
+
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				show("GameScreen");
+			}
+		});
+		btnNewButton.setBounds(165, 122, 89, 23);
+		ServerScreen.add(btnNewButton);
 		GameScreen.setName("GameScreen");
 		GameScreen.setBounds(0, 0, 444, 421);
 		contentPane.add(GameScreen);
@@ -252,7 +323,7 @@ public class Client extends JFrame {
 				try {
 					s = new Socket("192.168.1." + textField.getText(), 6666);
 					dout = new DataOutputStream(s.getOutputStream());
-					setDis(new DataInputStream(s.getInputStream()));
+					dis = new DataInputStream(s.getInputStream());
 					show("GameScreen");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -287,7 +358,7 @@ public class Client extends JFrame {
 				try {
 					s = new Socket("localhost", 6666);
 					dout = new DataOutputStream(s.getOutputStream());
-					setDis(new DataInputStream(s.getInputStream()));
+					dis = new DataInputStream(s.getInputStream());
 					show("ServerScreen");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -307,41 +378,6 @@ public class Client extends JFrame {
 		OButton.setFont(new Font("Tahoma", Font.PLAIN, 99));
 		OButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		StartScreen.add(OButton);
-
-		// SERVER SCREEN
-
-		JPanel ServerScreen = new JPanel();
-		ServerScreen.setVisible(false);
-		ServerScreen.setName("ServerScreen");
-		ServerScreen.setLayout(null);
-		ServerScreen.setBorder(new EmptyBorder(5, 5, 5, 5));
-		ServerScreen.setBounds(0, 0, 444, 421);
-		contentPane.add(ServerScreen);
-
-		JLabel ServerScreenGuideText = new JLabel("Give this to the other player!");
-		ServerScreenGuideText.setHorizontalAlignment(SwingConstants.CENTER);
-		ServerScreenGuideText.setName("");
-		ServerScreenGuideText.setAlignmentX(Component.CENTER_ALIGNMENT);
-		ServerScreenGuideText.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		ServerScreenGuideText.setBounds(10, 11, 424, 118);
-		ServerScreen.add(ServerScreenGuideText);
-
-		JLabel IPV4Address = new JLabel(InetAddress.getLocalHost().getHostAddress());
-		IPV4Address.setName("");
-		IPV4Address.setHorizontalAlignment(SwingConstants.CENTER);
-		IPV4Address.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		IPV4Address.setAlignmentX(0.5f);
-		IPV4Address.setBounds(10, 140, 424, 118);
-		ServerScreen.add(IPV4Address);
-
-		JButton backToStartServer = new JButton("Or go back to player select");
-		backToStartServer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				show("StartScreen");
-			}
-		});
-		backToStartServer.setBounds(108, 269, 230, 118);
-		ServerScreen.add(backToStartServer);
 
 		// LOST SCREEN
 
@@ -416,6 +452,9 @@ public class Client extends JFrame {
 		tieTryAgain.setBounds(140, 244, 164, 83);
 		tieTryAgain.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		TieScreen.add(tieTryAgain);
+		
+		
+		gameBtns = new JButton[] {btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8};
 
 		for (Component component : contentPane.getComponents()) {
 			if (component instanceof JPanel) {
@@ -424,7 +463,7 @@ public class Client extends JFrame {
 		}
 	}
 
-	public void show(String screen) {
+	public static void show(String screen) {
 		for (JPanel scr : menuScreens) {
 			if (screen == scr.getName()) {
 				scr.setVisible(true);
@@ -434,11 +473,17 @@ public class Client extends JFrame {
 		}
 	}
 
-	public DataInputStream getDis() {
-		return dis;
-	}
-
-	public void setDis(DataInputStream dis) {
-		this.dis = dis;
+	public static int getDisInt() {
+		try {
+			if (dis != null) {
+				return dis.readInt();
+			} else {
+				return 13;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 13;
+		}
 	}
 }

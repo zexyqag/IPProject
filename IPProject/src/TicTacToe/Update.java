@@ -1,7 +1,5 @@
 package TicTacToe;
 
-import java.io.IOException;
-
 public class Update implements Runnable {
 	Client frame;
 
@@ -13,25 +11,23 @@ public class Update implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			System.out.println("awdawd");;
-			frame.show("StartScreen");
-			try {
-				if (frame.getDis() != null) {
-					switch (frame.getDis().readInt()) {
-					case 9:
-						break;
-					case 10:
-						break;
-					case 11:
-						break;
-					case 12:
-						frame.show("GameScreen");
-						break;
-					}
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			int action = frame.getDisInt();
+			System.out.println(action);
+			switch (action) {
+			case 9:
+				frame.show("YouWonScreen");
+				break;
+			case 10:
+				frame.show("YouLostScreen");
+				break;
+			case 11:
+				frame.show("TieScreen");
+				break;
+			case 12:
+				frame.show("GameScreen");
+				break;
+			case 0:
+				break;
 			}
 		}
 	}
