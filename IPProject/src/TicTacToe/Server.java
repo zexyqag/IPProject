@@ -5,7 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
+
+import javax.naming.ldap.Rdn;
 
 public class Server implements Runnable {
 
@@ -62,7 +65,6 @@ public class Server implements Runnable {
 					System.out.println("Player 2 played their turn");
 				}
 				if (hasWinner()) {
-					board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 					if(turn % 2 == 1) {
 						player1dout.writeInt(9);
 						player2dout.writeInt(10);
@@ -70,12 +72,12 @@ public class Server implements Runnable {
 						player1dout.writeInt(10);
 						player2dout.writeInt(9);
 					}
-					
+					newGame();
 					
 				} else if (noWinner()) {
-					board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 					player1dout.writeInt(11);
 					player2dout.writeInt(11);
+					newGame();
 					
 				}
 				
@@ -109,5 +111,21 @@ public class Server implements Runnable {
 			}
 		}
 		return true;
+	}
+	
+	public void newGame() {
+		board = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		turn = 0;
+		int i = 14+new Random().nextInt(1);
+		try {
+			player1dout.writeInt(i);
+			player2dout.writeInt(i == 14 ? 15 : 14);
+		
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

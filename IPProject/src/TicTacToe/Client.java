@@ -430,6 +430,12 @@ public class Client extends JFrame {
 			break;
 		case 13:
 			break;
+		case 14:
+			player = 0;
+			break;
+		case 15:
+			player = 1;
+			break;
 		default:
 			turn++;
 		}
