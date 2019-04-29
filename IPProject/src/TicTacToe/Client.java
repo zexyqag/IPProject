@@ -294,7 +294,7 @@ public class Client extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				server = new Server();
 				Thread serverThread = new Thread(server, "ServerThread");
-				serverThread.start();
+				serverThread.start(); 
 				show("ServerScreen");
 				player = 0;
 				try {
