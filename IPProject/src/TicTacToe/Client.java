@@ -130,7 +130,7 @@ public class Client extends JFrame {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SEH.connectToServer(InetAddress.getLocalHost().getHostAddress().replaceAll("(.*\\.)\\d+$", "$1") + textField.getText());
+					SEH.connectToServer(textField.getText());
 					show("GameScreen");
 				} catch (IOException e1) {
 					textField.setText("Wrong code");
@@ -160,9 +160,7 @@ public class Client extends JFrame {
 		ServerScreen.add(ServerScreenGuideText);
 
 
-		String Ip  = InetAddress.getLocalHost().getHostAddress();
-		
-		JLabel IPV4Address = new JLabel(Ip.replaceAll(Ip.replaceAll("(.*\\.)\\d+$", "$1"),""));
+		JLabel IPV4Address = new JLabel(InetAddress.getLocalHost().getHostAddress());
 		IPV4Address.setName("");
 		IPV4Address.setHorizontalAlignment(SwingConstants.CENTER);
 		IPV4Address.setFont(new Font("Tahoma", Font.PLAIN, 30));
