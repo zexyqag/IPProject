@@ -124,8 +124,8 @@ public class Client extends JFrame {
 		pressEnter.setBounds(124, 86, 187, 38);
 		ClientScreen.add(pressEnter);
 		backToStartClient.setBounds(108, 269, 230, 118);
+		
 		ClientScreen.add(backToStartClient);
-
 		textField = new JTextField();
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
